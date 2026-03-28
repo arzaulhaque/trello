@@ -1,0 +1,335 @@
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 48px 16px;
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+.modal {
+  background: #f4f5f7;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 720px;
+  padding: 20px;
+  position: relative;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+}
+
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 18px;
+  color: #5e6c84;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.modal-close:hover {
+  background: rgba(0,0,0,0.08);
+  color: #172b4d;
+}
+
+/* Title */
+.modal-title-input {
+  width: 100%;
+  font-size: 20px;
+  font-weight: 700;
+  padding: 6px 8px;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  color: #172b4d;
+  outline: none;
+  margin-bottom: 12px;
+}
+
+.modal-title-input:focus {
+  border-color: #0079bf;
+  background: #fff;
+}
+
+/* Body */
+.modal-body {
+  display: flex;
+  gap: 16px;
+}
+
+.modal-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.modal-sidebar {
+  width: 170px;
+  flex-shrink: 0;
+}
+
+/* Section */
+.modal-section {
+  margin-bottom: 20px;
+}
+
+.modal-section-icon {
+  font-size: 20px;
+  margin-right: 8px;
+}
+
+.modal-sub-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #5e6c84;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+}
+
+/* Labels */
+.modal-labels {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.modal-label {
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+}
+
+/* Members */
+.modal-members {
+  display: flex;
+  gap: 4px;
+}
+
+.modal-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #0079bf;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Due date */
+.modal-date-input {
+  padding: 6px 10px;
+  border: 1px solid #dfe1e6;
+  border-radius: 4px;
+  outline: none;
+  font-size: 14px;
+  background: #fff;
+}
+
+.modal-date-input:focus {
+  border-color: #0079bf;
+}
+
+/* Description */
+.modal-desc-textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 8px;
+  border: 2px solid #0079bf;
+  border-radius: 4px;
+  resize: vertical;
+  outline: none;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.desc-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.modal-desc-display {
+  background: #fff;
+  border-radius: 4px;
+  padding: 8px 10px;
+  min-height: 50px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #172b4d;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.modal-desc-empty {
+  color: #a5adba;
+}
+
+/* Checklist */
+.checklist-progress {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.checklist-pct {
+  font-size: 11px;
+  color: #5e6c84;
+  width: 28px;
+  text-align: right;
+}
+
+.checklist-bar {
+  flex: 1;
+  height: 6px;
+  background: #dfe1e6;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.checklist-fill {
+  height: 100%;
+  background: #61bd4f;
+  transition: width 0.3s;
+}
+
+.checklist-items {
+  list-style: none;
+  margin-bottom: 8px;
+}
+
+.checklist-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 4px 0;
+}
+
+.checklist-item input[type='checkbox'] {
+  margin-top: 2px;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.checklist-item label {
+  font-size: 14px;
+  color: #172b4d;
+  cursor: pointer;
+  line-height: 1.4;
+}
+
+.checklist-item label.completed {
+  text-decoration: line-through;
+  color: #a5adba;
+}
+
+.add-item-form,
+.add-checklist-form {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.add-item-input {
+  flex: 1;
+  min-width: 120px;
+  padding: 6px 8px;
+  border: 1px solid #dfe1e6;
+  border-radius: 4px;
+  outline: none;
+  font-size: 14px;
+}
+
+.add-item-input:focus {
+  border-color: #0079bf;
+}
+
+/* Sidebar buttons */
+.modal-sidebar-btn {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 4px;
+  text-align: left;
+  font-size: 14px;
+  background: #091e420f;
+  color: #172b4d;
+  margin-bottom: 8px;
+  transition: background 0.15s;
+}
+
+.modal-sidebar-btn:hover {
+  background: #091e4221;
+}
+
+.modal-save-btn {
+  width: 100%;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.modal-delete-btn {
+  color: #eb5a46;
+}
+
+.modal-delete-btn:hover {
+  background: #fce9e6;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .modal-backdrop {
+    padding: 16px 8px;
+    align-items: flex-start;
+  }
+
+  .modal-body {
+    flex-direction: column;
+  }
+
+  .modal-sidebar {
+    width: 100%;
+  }
+}
+
+/* Shared button classes */
+.btn {
+  padding: 6px 14px;
+  border-radius: 4px;
+  font-weight: 600;
+  transition: background 0.15s;
+  font-size: 14px;
+}
+
+.btn-primary {
+  background: #0079bf;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: #005f99;
+}
+
+.btn-icon {
+  font-size: 14px;
+  color: #5e6c84;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-icon:hover {
+  background: rgba(0,0,0,0.06);
+  color: #172b4d;
+}
