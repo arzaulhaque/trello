@@ -1,0 +1,107 @@
+.card {
+  background: #fff;
+  border-radius: 6px;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.12);
+  cursor: pointer;
+  transition: box-shadow 0.15s, transform 0.15s;
+  position: relative;
+}
+
+.card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+  transform: translateY(-1px);
+}
+
+.card--dragging {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+  transform: rotate(2deg);
+}
+
+/* Labels */
+.card-labels {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+
+.card-label {
+  display: inline-block;
+  height: 8px;
+  width: 40px;
+  border-radius: 4px;
+  opacity: 0.9;
+}
+
+/* Title */
+.card-title {
+  font-size: 14px;
+  color: #172b4d;
+  word-break: break-word;
+  line-height: 1.4;
+}
+
+/* Meta row */
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+
+.card-due {
+  font-size: 11px;
+  color: #5e6c84;
+  background: #f4f5f7;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.card-due--overdue {
+  background: #eb5a46;
+  color: #fff;
+}
+
+.card-icon {
+  font-size: 13px;
+}
+
+.card-members {
+  display: flex;
+  gap: 2px;
+  margin-left: auto;
+}
+
+.card-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #0079bf;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-delete-btn {
+  font-size: 13px;
+  color: #a5adba;
+  padding: 2px 4px;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+
+.card:hover .card-delete-btn {
+  opacity: 1;
+}
+
+.card-delete-btn:hover {
+  background: #f4f5f7;
+  color: #eb5a46;
+}
