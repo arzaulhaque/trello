@@ -1,11 +1,13 @@
 .list {
   background: #ebecf0;
   border-radius: 8px;
-  width: 272px;
+  width: 260px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  max-height: calc(100vh - 120px);
+  max-height: calc(100vh - 140px);
+  box-shadow: 0 1px 4px rgba(9,30,66,.25);
+  transition: box-shadow 0.2s ease;
 }
 
 .list--dragging {
@@ -119,5 +121,6 @@
   .list {
     width: 100%;
     max-height: none;
+    box-shadow: 0 1px 4px rgba(9,30,66,.15);
   }
 }
