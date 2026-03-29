@@ -7,5 +7,7 @@ router.post('/', boardController.createBoard);
 router.get('/:id', boardController.getBoard);
 router.put('/:id', boardController.updateBoard);
 router.delete('/:id', boardController.deleteBoard);
+router.get('/:id/labels', boardController.getBoardLabels);
+router.post('/:id/labels', boardController.createBoardLabel);
 
 module.exports = router;

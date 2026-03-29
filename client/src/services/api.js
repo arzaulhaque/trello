@@ -20,6 +20,11 @@ export const getBoard = (id) => request('GET', `/boards/${id}`)
 export const createBoard = (data) => request('POST', '/boards', data)
 export const updateBoard = (id, data) => request('PUT', `/boards/${id}`, data)
 export const deleteBoard = (id) => request('DELETE', `/boards/${id}`)
+export const getBoardLabels = (boardId) => request('GET', `/boards/${boardId}/labels`)
+export const createBoardLabel = (boardId, data) => request('POST', `/boards/${boardId}/labels`, data)
+
+// Users
+export const getUsers = () => request('GET', '/users')
 
 // Lists
 export const createList = (data) => request('POST', '/lists', data)
