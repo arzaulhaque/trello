@@ -206,6 +206,7 @@ export default function BoardPage({ boardId }) {
       {selectedCard && (
         <CardModal
           card={selectedCard}
+          boardId={board.id}
           onClose={() => setSelectedCard(null)}
           onUpdated={handleCardUpdated}
           onDeleted={(card) => {

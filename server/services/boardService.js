@@ -62,4 +62,20 @@ async function deleteBoard(id) {
   return result.rows[0];
 }
 
-module.exports = { getAllBoards, getBoardById, createBoard, updateBoard, deleteBoard };
+async function getBoardLabels(board_id) {
+  const result = await pool.query(
+    'SELECT * FROM labels WHERE board_id = $1 ORDER BY name ASC',
+    [board_id]
+  );
+  return result.rows;
+}
+
+async function createBoardLabel(board_id, name, color) {
+  const result = await pool.query(
+    'INSERT INTO labels (board_id, name, color) VALUES ($1, $2, $3) RETURNING *',
+    [board_id, name, color || '#61bd4f']
+  );
+  return result.rows[0];
+}
+
+module.exports = { getAllBoards, getBoardById, createBoard, updateBoard, deleteBoard, getBoardLabels, createBoardLabel };

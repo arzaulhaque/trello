@@ -58,4 +58,26 @@ async function deleteBoard(req, res, next) {
   }
 }
 
-module.exports = { getBoards, getBoard, createBoard, updateBoard, deleteBoard };
+async function getBoardLabels(req, res, next) {
+  try {
+    const labels = await boardService.getBoardLabels(req.params.id);
+    res.json(labels);
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function createBoardLabel(req, res, next) {
+  try {
+    const { name, color } = req.body;
+    if (!name) {
+      return res.status(400).json({ error: { message: 'name is required', status: 400 } });
+    }
+    const label = await boardService.createBoardLabel(req.params.id, name, color);
+    res.status(201).json(label);
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports = { getBoards, getBoard, createBoard, updateBoard, deleteBoard, getBoardLabels, createBoardLabel };

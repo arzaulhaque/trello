@@ -12,7 +12,7 @@ const LABEL_COLORS = [
   { name: 'Blue',   color: '#0079bf' },
 ]
 
-export default function CardModal({ card: initialCard, onClose, onUpdated, onDeleted }) {
+export default function CardModal({ card: initialCard, boardId, onClose, onUpdated, onDeleted }) {
   const [card, setCard] = useState(initialCard)
   const [title, setTitle] = useState(initialCard.title)
   const [description, setDescription] = useState(initialCard.description || '')
@@ -24,12 +24,27 @@ export default function CardModal({ card: initialCard, onClose, onUpdated, onDel
   const [addingChecklist, setAddingChecklist] = useState(false)
   const [newItemContent, setNewItemContent] = useState({})
   const [saving, setSaving] = useState(false)
+  const [showLabelPicker, setShowLabelPicker] = useState(false)
+  const [showMemberPicker, setShowMemberPicker] = useState(false)
+  const [boardLabels, setBoardLabels] = useState([])
+  const [allUsers, setAllUsers] = useState([])
+  const [newLabelName, setNewLabelName] = useState('')
+  const [newLabelColor, setNewLabelColor] = useState('#61bd4f')
+  const [addingLabel, setAddingLabel] = useState(false)
   const modalRef = useRef(null)
 
   // Load full card details
   useEffect(() => {
     api.getCard(initialCard.id).then(setCard).catch(() => {})
   }, [initialCard.id])
+
+  // Load board labels and users
+  useEffect(() => {
+    if (boardId) {
+      api.getBoardLabels(boardId).then(setBoardLabels).catch(() => {})
+      api.getUsers().then(setAllUsers).catch(() => {})
+    }
+  }, [boardId])
 
   // Close on backdrop click
   const handleBackdropClick = (e) => {
@@ -115,6 +130,51 @@ export default function CardModal({ card: initialCard, onClose, onUpdated, onDel
         ),
       }))
     } catch {}
+  }
+
+  const handleToggleLabel = async (label) => {
+    const cardLabels = card.labels || []
+    const isOn = cardLabels.some((l) => l.id === label.id)
+    try {
+      if (isOn) {
+        await api.removeLabel(card.id, label.id)
+        setCard((c) => ({ ...c, labels: c.labels.filter((l) => l.id !== label.id) }))
+      } else {
+        await api.addLabel(card.id, { label_id: label.id })
+        setCard((c) => ({ ...c, labels: [...(c.labels || []), label] }))
+      }
+    } catch (err) {
+      alert(err.message)
+    }
+  }
+
+  const handleCreateLabel = async (e) => {
+    e.preventDefault()
+    if (!newLabelName.trim()) return
+    try {
+      const label = await api.createBoardLabel(boardId, { name: newLabelName.trim(), color: newLabelColor })
+      setBoardLabels((prev) => [...prev, label])
+      setNewLabelName('')
+      setAddingLabel(false)
+    } catch (err) {
+      alert(err.message)
+    }
+  }
+
+  const handleToggleMember = async (user) => {
+    const cardMembers = card.members || []
+    const isOn = cardMembers.some((m) => m.id === user.id)
+    try {
+      if (isOn) {
+        await api.removeMember(card.id, user.id)
+        setCard((c) => ({ ...c, members: c.members.filter((m) => m.id !== user.id) }))
+      } else {
+        await api.addMember(card.id, { user_id: user.id })
+        setCard((c) => ({ ...c, members: [...(c.members || []), user] }))
+      }
+    } catch (err) {
+      alert(err.message)
+    }
   }
 
   const handleSave = async () => {
@@ -279,9 +339,9 @@ export default function CardModal({ card: initialCard, onClose, onUpdated, onDel
               )
             })}
 
-            {/* Add checklist */}
-            <div className="modal-section">
-              {addingChecklist ? (
+            {/* Add checklist inline */}
+            {addingChecklist && (
+              <div className="modal-section">
                 <form className="add-checklist-form" onSubmit={handleAddChecklist}>
                   <input
                     autoFocus
@@ -295,17 +355,120 @@ export default function CardModal({ card: initialCard, onClose, onUpdated, onDel
                     <button type="button" className="btn-icon" onClick={() => setAddingChecklist(false)}>Cancel</button>
                   </div>
                 </form>
-              ) : (
-                <button className="modal-sidebar-btn" onClick={() => setAddingChecklist(true)}>
-                  ☑ Add Checklist
-                </button>
-              )}
-            </div>
+              </div>
+            )}
           </div>
 
           {/* Sidebar actions */}
           <div className="modal-sidebar">
-            <h3 className="modal-sub-title">Actions</h3>
+            <h3 className="modal-sub-title">Add to card</h3>
+
+            {/* Labels button + picker */}
+            <div className="picker-wrap">
+              <button
+                className="modal-sidebar-btn"
+                onClick={() => { setShowLabelPicker((v) => !v); setShowMemberPicker(false) }}
+              >
+                🏷 Labels
+              </button>
+              {showLabelPicker && (
+                <div className="picker-dropdown">
+                  <div className="picker-title">Labels</div>
+                  {boardLabels.map((label) => {
+                    const active = labels.some((l) => l.id === label.id)
+                    return (
+                      <div
+                        key={label.id}
+                        className={`picker-item ${active ? 'picker-item--active' : ''}`}
+                        onClick={() => handleToggleLabel(label)}
+                      >
+                        <span className="picker-label-swatch" style={{ background: label.color }} />
+                        <span className="picker-label-name">{label.name}</span>
+                        {active && <span className="picker-check">✓</span>}
+                      </div>
+                    )
+                  })}
+                  {boardLabels.length === 0 && !addingLabel && (
+                    <div className="picker-empty">No labels yet</div>
+                  )}
+                  <div className="picker-divider" />
+                  {addingLabel ? (
+                    <form className="picker-new-label" onSubmit={handleCreateLabel}>
+                      <input
+                        autoFocus
+                        className="picker-input"
+                        placeholder="Label name…"
+                        value={newLabelName}
+                        onChange={(e) => setNewLabelName(e.target.value)}
+                      />
+                      <div className="picker-colors">
+                        {LABEL_COLORS.map((lc) => (
+                          <button
+                            key={lc.color}
+                            type="button"
+                            className={`picker-color-btn ${newLabelColor === lc.color ? 'picker-color-btn--active' : ''}`}
+                            style={{ background: lc.color }}
+                            title={lc.name}
+                            onClick={() => setNewLabelColor(lc.color)}
+                          />
+                        ))}
+                      </div>
+                      <div style={{ display: 'flex', gap: 6, marginTop: 6 }}>
+                        <button type="submit" className="btn btn-primary" style={{ flex: 1 }}>Create</button>
+                        <button type="button" className="btn-icon" onClick={() => setAddingLabel(false)}>Cancel</button>
+                      </div>
+                    </form>
+                  ) : (
+                    <button className="picker-create-btn" onClick={() => setAddingLabel(true)}>
+                      + Create a new label
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Members button + picker */}
+            <div className="picker-wrap">
+              <button
+                className="modal-sidebar-btn"
+                onClick={() => { setShowMemberPicker((v) => !v); setShowLabelPicker(false) }}
+              >
+                �� Members
+              </button>
+              {showMemberPicker && (
+                <div className="picker-dropdown">
+                  <div className="picker-title">Members</div>
+                  {allUsers.map((user) => {
+                    const active = members.some((m) => m.id === user.id)
+                    return (
+                      <div
+                        key={user.id}
+                        className={`picker-item ${active ? 'picker-item--active' : ''}`}
+                        onClick={() => handleToggleMember(user)}
+                      >
+                        <span className="picker-avatar">{user.username[0].toUpperCase()}</span>
+                        <span className="picker-member-name">{user.username}</span>
+                        {active && <span className="picker-check">✓</span>}
+                      </div>
+                    )
+                  })}
+                  {allUsers.length === 0 && (
+                    <div className="picker-empty">No users found</div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Checklist button */}
+            <button
+              className="modal-sidebar-btn"
+              onClick={() => { setAddingChecklist(true); setShowLabelPicker(false); setShowMemberPicker(false) }}
+            >
+              ☑ Checklist
+            </button>
+
+            <div className="picker-divider" />
+            <h3 className="modal-sub-title" style={{ marginTop: 12 }}>Actions</h3>
             <button className="btn btn-primary modal-save-btn" onClick={handleSave} disabled={saving}>
               {saving ? 'Saving…' : 'Save'}
             </button>

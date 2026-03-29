@@ -11,7 +11,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  min-height: calc(100vh - 48px);
   color: #fff;
   gap: 16px;
 }
@@ -51,6 +51,7 @@
   display: flex;
   gap: 8px;
   overflow-x: auto;
+  flex: 1;
 }
 
 .board-tab {
@@ -66,6 +67,132 @@
 .board-tab:hover,
 .board-tab.active {
   background: rgba(255,255,255,0.35);
+}
+
+.app-header-right {
+  flex-shrink: 0;
+}
+
+/* ===== Create Board ===== */
+.create-board-wrap {
+  position: relative;
+}
+
+.create-board-btn {
+  padding: 6px 14px;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.25);
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+
+.create-board-btn:hover {
+  background: rgba(255,255,255,0.4);
+}
+
+.create-board-form {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  width: 240px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  padding: 12px;
+  z-index: 200;
+}
+
+.create-board-form-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #172b4d;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.create-board-input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 2px solid #0079bf;
+  border-radius: 4px;
+  font-size: 14px;
+  outline: none;
+  margin-bottom: 10px;
+}
+
+.create-board-bg-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #5e6c84;
+  margin-bottom: 6px;
+}
+
+.create-board-colors {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.create-board-color {
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  border: 3px solid transparent;
+  cursor: pointer;
+  transition: border-color 0.1s;
+}
+
+.create-board-color--active {
+  border-color: #172b4d;
+}
+
+.create-board-preview {
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 10px;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  word-break: break-word;
+}
+
+.create-board-submit {
+  width: 100%;
+  text-align: center;
+  font-size: 14px;
+  padding: 8px;
+}
+
+.create-board-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.create-board-cancel {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 16px;
+  color: #5e6c84;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.create-board-cancel:hover {
+  background: rgba(0,0,0,0.06);
+  color: #172b4d;
 }
 
 /* ===== Main ===== */
