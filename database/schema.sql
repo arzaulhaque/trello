@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS checklist_items (
   updated_at   TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- Indexes for performance
+-- Indexes for performances
 CREATE INDEX IF NOT EXISTS idx_lists_board_id   ON lists(board_id);
 CREATE INDEX IF NOT EXISTS idx_lists_position   ON lists(board_id, position);
 CREATE INDEX IF NOT EXISTS idx_cards_list_id    ON cards(list_id);
