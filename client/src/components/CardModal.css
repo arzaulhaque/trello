@@ -438,19 +438,6 @@
   font-size: 14px;
   color: #172b4d;
 }
-  .modal-backdrop {
-    padding: 16px 8px;
-    align-items: flex-start;
-  }
-
-  .modal-body {
-    flex-direction: column;
-  }
-
-  .modal-sidebar {
-    width: 100%;
-  }
-}
 
 /* Shared button classes */
 .btn {
