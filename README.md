@@ -6,12 +6,12 @@ A full-stack project management app inspired by Trello, built with React (Vite),
 
 ## 🚀 Tech Stack
 
-| Layer     | Technology                          |
-|-----------|-------------------------------------|
-| Frontend  | React 18, Vite, @hello-pangea/dnd   |
-| Backend   | Node.js, Express, MVC architecture  |
-| Database  | PostgreSQL                          |
-| Testing   | Jest, Supertest                     |
+| Layer     | Technology                                      |
+|-----------|-------------------------------------------------|
+| Frontend  | React 18, Vite, Axios, @hello-pangea/dnd        |
+| Backend   | Node.js, Express, MVC architecture              |
+| Database  | PostgreSQL                                      |
+| Testing   | Jest, Supertest                                 |
 
 ---
 
@@ -25,7 +25,8 @@ A full-stack project management app inspired by Trello, built with React (Vite),
 - **Checklists** – Add checklist items with progress bar and toggle completion
 - **Search & Filter** – Debounced search by title; filter by label, member, or due date
 - **Responsive UI** – Mobile-first layout that adapts from phone to desktop
-- **REST API** – Full CRUD for boards, lists, cards, labels, members, checklists
+- **Users** – Retrieve user list to assign members to cards
+- **REST API** – Full CRUD for boards, lists, cards, labels, members, checklists, and users
 
 ---
 
@@ -37,16 +38,16 @@ root/
     src/
       components/       # Board, List, Card, CardModal, SearchFilter
       pages/            # BoardPage
-      services/         # API client (fetch wrapper)
+      services/         # API client (axios wrapper)
       hooks/            # useDebounce
-      utils/            # helpers (formatDate, isOverdue)
+      utils/            # helpers (formatDate, isOverdue, generateId)
   server/               # Node.js / Express backend
-    controllers/        # boardController, listController, cardController
-    routes/             # boardRoutes, listRoutes, cardRoutes
-    services/           # boardService, listService, cardService
+    controllers/        # boardController, listController, cardController, userController
+    routes/             # boardRoutes, listRoutes, cardRoutes, userRoutes
+    services/           # boardService, listService, cardService, userService
     config/             # db.js (pg Pool)
     middlewares/        # errorHandler
-    __tests__/          # Jest + Supertest tests
+    __tests__/          # Jest + Supertest tests (health, api, db)
   database/
     schema.sql          # CREATE TABLE statements
     seed.sql            # Sample data
@@ -128,13 +129,15 @@ Foreign keys cascade on delete so removing a board removes all its lists, cards,
 ## 🔌 API Endpoints
 
 ### Boards
-| Method | Path             | Description          |
-|--------|------------------|----------------------|
-| GET    | /api/boards      | List all boards      |
-| POST   | /api/boards      | Create a board       |
-| GET    | /api/boards/:id  | Get board with lists/cards |
-| PUT    | /api/boards/:id  | Update board         |
-| DELETE | /api/boards/:id  | Delete board         |
+| Method | Path                      | Description                  |
+|--------|---------------------------|------------------------------|
+| GET    | /api/boards               | List all boards              |
+| POST   | /api/boards               | Create a board               |
+| GET    | /api/boards/:id           | Get board with lists/cards   |
+| PUT    | /api/boards/:id           | Update board                 |
+| DELETE | /api/boards/:id           | Delete board                 |
+| GET    | /api/boards/:id/labels    | Get labels for a board       |
+| POST   | /api/boards/:id/labels    | Create a label on a board    |
 
 ### Lists
 | Method | Path              | Description    |
@@ -161,7 +164,12 @@ Foreign keys cascade on delete so removing a board removes all its lists, cards,
 | POST   | /api/cards/:id/checklists/:checklistId/items           | Add checklist item    |
 | PATCH  | /api/cards/:id/checklists/:checklistId/items/:itemId   | Toggle item           |
 | PATCH  | /api/cards/:id/due-date                                | Update due date       |
-| GET    | /api/cards/search?query=                               | Search cards          |
+| GET    | /api/cards/search?query=                               | Search cards by title |
+
+### Users
+| Method | Path        | Description         |
+|--------|-------------|---------------------|
+| GET    | /api/users  | List all users      |
 
 ---
 
@@ -189,7 +197,7 @@ Foreign keys cascade on delete so removing a board removes all its lists, cards,
 
 ## 📸 Screenshots
 
-> _Add screenshots of the board, card modal, and mobile layout here._
+> _Add screenshots of the board, card modal, search filter, and mobile layout here._
 
 ---
 
